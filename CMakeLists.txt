@@ -124,11 +124,13 @@ endif()
 # Include directories
 # --------------------------------------------------------------------------------------------------------
 
-target_include_directories(${PROJECT_NAME} PRIVATE
-    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/include>
+target_include_directories(${PROJECT_NAME} PUBLIC
     $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/include/saucer>
-    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/modules/desktop/include/saucer>
-    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/private>)
+    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/modules/desktop/include/saucer>)
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+        $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/private>)
 
 target_sources(${PROJECT_NAME} PRIVATE
     ${saucer-bindings_SOURCE_DIR}/src/app.cpp
