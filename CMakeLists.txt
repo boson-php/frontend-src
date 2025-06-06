@@ -4,7 +4,7 @@ project(boson LANGUAGES CXX VERSION 5.0.0)
 set(COPYRIGHT "Copyright (c) Nesmeyanov Kirill/Community")
 set(VENDOR "Boson")
 set(DESCRIPTION "Boson frontend runtime binaries")
-set(VERSION "0.2.2")
+set(VERSION "0.3.0")
 set(OUTPUT_NAME "libboson")
 
 add_compile_definitions(BOSON_COPYRIGHT=${COPYRIGHT})
@@ -78,6 +78,13 @@ FetchContent_Declare(
     GIT_TAG v6.0.1)
 FetchContent_MakeAvailable(saucer-bindings)
 
+FetchContent_Declare(
+    saucer-desktop
+    GIT_REPOSITORY https://github.com/saucer/desktop
+    GIT_TAG v3.0.0
+)
+FetchContent_MakeAvailable(saucer-desktop)
+
 # --------------------------------------------------------------------------------------------------------
 # Setup library
 # --------------------------------------------------------------------------------------------------------
@@ -87,6 +94,7 @@ add_library(${PROJECT_NAME} SHARED "src/boson.cpp")
 target_compile_definitions(${PROJECT_NAME} PRIVATE BOSON_BUILD)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE saucer::saucer)
+target_link_libraries(${PROJECT_NAME} PRIVATE saucer::desktop)
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 
@@ -116,11 +124,10 @@ endif()
 # Include directories
 # --------------------------------------------------------------------------------------------------------
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/include>)
-
 target_include_directories(${PROJECT_NAME} PRIVATE
+    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/include/saucer>
+    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/modules/desktop/include/saucer>
     $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/private>)
 
 target_sources(${PROJECT_NAME} PRIVATE
@@ -134,5 +141,8 @@ target_sources(${PROJECT_NAME} PRIVATE
     ${saucer-bindings_SOURCE_DIR}/src/navigation.cpp
     ${saucer-bindings_SOURCE_DIR}/src/preferences.cpp
     ${saucer-bindings_SOURCE_DIR}/src/window.cpp
-    ${saucer-bindings_SOURCE_DIR}/src/webview.cpp)
+    ${saucer-bindings_SOURCE_DIR}/src/webview.cpp
+
+    ${saucer-bindings_SOURCE_DIR}/modules/desktop/src/desktop.cpp
+)
 
