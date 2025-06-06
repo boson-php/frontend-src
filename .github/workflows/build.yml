@@ -215,7 +215,7 @@ jobs:
           - { arch: "x86_64", qemuArch: "linux/amd64" }
           #- { arch: "x86", qemuArch: "linux/386" }
           - { arch: "aarch64", qemuArch: "linux/arm64" }
-          - { arch: "arm", qemuArch: "linux/arm/v5" }
+          # - { arch: "arm", qemuArch: "linux/arm/v5" }
           #- { arch: "ppc64le", qemuArch: "linux/ppc64le" }
           #- { arch: "riscv64", qemuArch: "linux/riscv64" }
           #- { arch: "s390x", qemuArch: "linux/s390x" }
