@@ -51,7 +51,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 if(NOT WIN32)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-subobject-linkage")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-subobject-linkage")
 endif()
 
 # --------------------------------------------------------------------------------------------------------
@@ -61,7 +61,8 @@ endif()
 include(FetchContent)
 
 set(saucer_static ON CACHE BOOL "Build a static library" FORCE)
-set(saucer_modules OFF CACHE BOOL "Disable module support" FORCE)
+set(saucer_modules ON CACHE BOOL "Enable module support" FORCE)
+set(saucer_desktop ON CACHE BOOL "Enable support for the desktop module" FORCE)
 set(glaze_ENABLE_AVX2 OFF CACHE BOOL "Disable AVX2 instructions set" FORCE)
 
 set(ENV{GIT_TERMINAL_PROMPT} 0)
@@ -127,8 +128,11 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE
     $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/include/saucer>
+    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/modules/desktop/include>
     $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/modules/desktop/include/saucer>
-    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/private>)
+
+    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/private>
+)
 
 target_sources(${PROJECT_NAME} PRIVATE
     ${saucer-bindings_SOURCE_DIR}/src/app.cpp
