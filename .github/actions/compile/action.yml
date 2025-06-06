@@ -66,7 +66,7 @@ runs:
           elif [ "${{ inputs.arm-hack  }}" == "arm" ]; then
             export TARGET_ARCH="armv5+nofp"
           fi
-          
+
           export PATH=$PATH:/usr/include/gtk-4.0
 
           cmake -B ${{ inputs.build-dir }} -S ${{ inputs.src-dir }} -Dsaucer_backend=${{ inputs.backend }} ${{ inputs.cmake-args }}
