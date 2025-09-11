@@ -4,7 +4,7 @@ project(boson LANGUAGES CXX VERSION 5.0.0)
 set(COPYRIGHT "Copyright (c) Nesmeyanov Kirill/Community")
 set(VENDOR "Boson")
 set(DESCRIPTION "Boson frontend runtime binaries")
-set(VERSION "0.3.0")
+set(VERSION "0.4.0")
 set(OUTPUT_NAME "libboson")
 
 add_compile_definitions(BOSON_COPYRIGHT=${COPYRIGHT})
