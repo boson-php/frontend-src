@@ -82,7 +82,7 @@ FetchContent_MakeAvailable(saucer-bindings)
 FetchContent_Declare(
     saucer-desktop
     GIT_REPOSITORY https://github.com/saucer/desktop
-    GIT_TAG v3.0.0
+    GIT_TAG v4.0.2
 )
 FetchContent_MakeAvailable(saucer-desktop)
 
