@@ -238,7 +238,7 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/run-in-container
         with:
-          command: apt update && apt install -y build-essential git gcc-14 cmake xvfb libgtk-4-dev libwebkitgtk-6.0-dev libadwaita-1-dev
+          command: apt update && apt install -y build-essential git gcc-14 cmake xvfb libgtk-4-dev libwebkitgtk-6.0-dev libadwaita-1-dev libjson-glib-dev
 
       - name: Compile
         uses: ./.github/actions/compile
