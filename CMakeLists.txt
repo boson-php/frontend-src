@@ -103,6 +103,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE BOSON_BUILD)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE saucer::saucer)
 target_link_libraries(${PROJECT_NAME} PRIVATE saucer::desktop)
+target_link_libraries(${PROJECT_NAME} PRIVATE saucer::loop)
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 
@@ -113,10 +114,6 @@ if(WIN32)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".dll")
 elseif(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".dylib")
-    set_source_files_properties(
-        ${saucer_SOURCE_DIR}/saucer/modules/stable/webkit.hpp
-        PROPERTIES LANGUAGE OBJCXX
-    )
 else()
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".so")
 endif()
