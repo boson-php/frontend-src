@@ -70,19 +70,19 @@ set(ENV{GIT_TERMINAL_PROMPT} 0)
 FetchContent_Declare(
     saucer
     GIT_REPOSITORY https://github.com/saucer/saucer
-    GIT_TAG v6.0.1)
+    GIT_TAG v8.0.0)
 FetchContent_MakeAvailable(saucer)
 
 FetchContent_Declare(
     saucer-bindings
     GIT_REPOSITORY https://github.com/saucer/bindings
-    GIT_TAG v6.0.1)
+    GIT_TAG v8.0.0)
 FetchContent_MakeAvailable(saucer-bindings)
 
 FetchContent_Declare(
     saucer-desktop
     GIT_REPOSITORY https://github.com/saucer/desktop
-    GIT_TAG v4.0.2
+    GIT_TAG v4.2.0
 )
 FetchContent_MakeAvailable(saucer-desktop)
 
