@@ -4,7 +4,7 @@ project(boson LANGUAGES CXX VERSION 5.0.0)
 set(COPYRIGHT "Copyright (c) Nesmeyanov Kirill/Community")
 set(VENDOR "Boson")
 set(DESCRIPTION "Boson frontend runtime binaries")
-set(VERSION "0.4.0")
+set(VERSION "0.5.0")
 set(OUTPUT_NAME "libboson")
 
 add_compile_definitions(BOSON_COPYRIGHT=${COPYRIGHT})
@@ -86,6 +86,13 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(saucer-desktop)
 
+FetchContent_Declare(
+    saucer-loop
+    GIT_REPOSITORY https://github.com/saucer/loop
+    GIT_TAG v2.1.0
+)
+FetchContent_MakeAvailable(saucer-loop)
+
 # --------------------------------------------------------------------------------------------------------
 # Setup library
 # --------------------------------------------------------------------------------------------------------
@@ -126,12 +133,17 @@ endif()
 # --------------------------------------------------------------------------------------------------------
 
 target_include_directories(${PROJECT_NAME} PRIVATE
+    $<BUILD_INTERFACE:${saucer_SOURCE_DIR}/private>
+
     $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/include/saucer>
+    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/private>
+
     $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/modules/desktop/include>
     $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/modules/desktop/include/saucer>
 
-    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/private>
+    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/modules/loop/include>
+    $<BUILD_INTERFACE:${saucer-bindings_SOURCE_DIR}/modules/loop/include/saucer>
 )
 
 target_sources(${PROJECT_NAME} PRIVATE
@@ -147,4 +159,5 @@ target_sources(${PROJECT_NAME} PRIVATE
     ${saucer-bindings_SOURCE_DIR}/src/webview.cpp
 
     ${saucer-bindings_SOURCE_DIR}/modules/desktop/src/desktop.cpp
+    ${saucer-bindings_SOURCE_DIR}/modules/loop/src/loop.cpp
 )
