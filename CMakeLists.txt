@@ -113,6 +113,10 @@ if(WIN32)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".dll")
 elseif(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".dylib")
+    set_source_files_properties(
+        ${saucer_SOURCE_DIR}/saucer/modules/stable/webkit.hpp
+        PROPERTIES LANGUAGE OBJCXX
+    )
 else()
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".so")
 endif()
