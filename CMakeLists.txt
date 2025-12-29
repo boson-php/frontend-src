@@ -136,11 +136,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_sources(${PROJECT_NAME} PRIVATE
     ${saucer-bindings_SOURCE_DIR}/src/app.cpp
-    ${saucer-bindings_SOURCE_DIR}/src/options.cpp
-    ${saucer-bindings_SOURCE_DIR}/src/memory.cpp
     ${saucer-bindings_SOURCE_DIR}/src/icon.cpp
     ${saucer-bindings_SOURCE_DIR}/src/stash.cpp
-    ${saucer-bindings_SOURCE_DIR}/src/script.cpp
+    ${saucer-bindings_SOURCE_DIR}/src/url.cpp
+    ${saucer-bindings_SOURCE_DIR}/src/native.cpp
     ${saucer-bindings_SOURCE_DIR}/src/scheme.cpp
     ${saucer-bindings_SOURCE_DIR}/src/navigation.cpp
     ${saucer-bindings_SOURCE_DIR}/src/preferences.cpp
