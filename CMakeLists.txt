@@ -172,6 +172,8 @@ endif()
 # | Setup Modules                                                                                         |
 # +-------------------------------------------------------------------------------------------------------+
 
+saucer_bindings_export("modules/desktop" "SAUCER_DESKTOP_EXPORT")
+saucer_bindings_export("modules/loop" "SAUCER_LOOP_EXPORT")
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE "modules/desktop/include/saucer"
