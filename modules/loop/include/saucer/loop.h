@@ -8,6 +8,10 @@ extern "C"
 #include "app.h"
 #include "export.h"
 
+#ifndef SAUCER_LOOP_EXPORT
+#define SAUCER_LOOP_EXPORT SAUCER_EXPORT
+#endif
+
     struct saucer_loop;
 
     SAUCER_LOOP_EXPORT void saucer_loop_free(saucer_loop *);

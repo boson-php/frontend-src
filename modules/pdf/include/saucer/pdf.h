@@ -8,6 +8,10 @@ extern "C"
 #include "export.h"
 #include "webview.h"
 
+#ifndef SAUCER_PDF_EXPORT
+#define SAUCER_PDF_EXPORT SAUCER_EXPORT
+#endif
+
 #include <cstdint>
 
     struct saucer_pdf;

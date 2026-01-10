@@ -7,6 +7,9 @@ extern "C"
 
 #include "app.h"
 #include "export.h"
+#ifndef SAUCER_DESKTOP_EXPORT
+#define SAUCER_DESKTOP_EXPORT SAUCER_EXPORT
+#endif
 
 #include <stdbool.h>
 
