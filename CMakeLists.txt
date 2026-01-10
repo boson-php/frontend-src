@@ -79,7 +79,7 @@ endif()
 
 if (NOT MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE
-        -Wno-unknown-warning-option -Wno-sign-compare)
+        -Wno-unknown-warning-option -Wno-missing-field-initializers -Wno-cast-function-type -Wno-sign-compare)
 endif()
 
 # +-------------------------------------------------------------------------------------------------------+
