@@ -71,11 +71,9 @@ jobs:
           platform: ${{ matrix.platform }}
           build-type: Release
           cmake-args: ${{ matrix.cmake-args }}
-          src-dir: ${{ env.SOURCES_DIR }}
-          build-dir: ${{ env.BUILD_DIR }}
 
       - name: 📦 Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Binding (${{ matrix.backend }}-${{ matrix.config }})
+          name: Binding (${{ matrix.backend }})
           path: ${{ env.BUILD_DIR }}
