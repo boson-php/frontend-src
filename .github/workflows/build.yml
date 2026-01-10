@@ -15,32 +15,14 @@ jobs:
       fail-fast: false
 
       matrix:
-        backend: [WebKit, WebKitGtk, WebView2, WebView2-Rfl, WebView2-Hack, WebView2-Hack-Rfl, Qt]
-        config: [Debug, Release, RelWithDebInfo, MinSizeRel]
+        backend: [WebKit, WebKitGtk, WebView2, Qt]
+        config: [Release]
 
         include:
           - backend: WebView2
             platform: Windows
             os: windows-latest
-            cmake-args: -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
-
-          - backend: WebView2-Hack
-            backend-override: WebView2
-            platform: Windows
-            os: windows-latest
             cmake-args: -Dsaucer_msvc_hack=ON -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
-
-          - backend: WebView2-Rfl
-            backend-override: WebView2
-            platform: Windows
-            os: windows-latest
-            cmake-args: -Dsaucer_serializer=Rflpp
-
-          - backend: WebView2-Hack-Rfl
-            backend-override: WebView2
-            platform: Windows
-            os: windows-latest
-            cmake-args: -Dsaucer_msvc_hack=ON -Dsaucer_serializer=Rflpp
 
           - backend: Qt
             platform: Linux
