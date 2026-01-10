@@ -39,14 +39,6 @@ else()
 endif()
 
 # +-------------------------------------------------------------------------------------------------------+
-# | Library switches                                                                                      |
-# +-------------------------------------------------------------------------------------------------------+
-
-option(saucer_desktop "Enable support for the desktop module" ON)
-option(saucer_pdf     "Enable support for the pdf module"     OFF)
-option(saucer_loop    "Enable support for the loop module"    ON)
-
-# +-------------------------------------------------------------------------------------------------------+
 # | CMake options                                                                                         |
 # +-------------------------------------------------------------------------------------------------------+
 
@@ -81,11 +73,13 @@ else()
 endif()
 
 if (PROJECT_IS_TOP_LEVEL AND NOT MSVC AND NOT CMAKE_CXX_SIMULATE_ID MATCHES "MSVC")
-  target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -pedantic -pedantic-errors -Wfatal-errors)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        -Wall -Wextra -Wpedantic -Werror -pedantic -pedantic-errors -Wfatal-errors)
 endif()
 
 if (NOT MSVC)
-  target_compile_options(${PROJECT_NAME} PRIVATE -Wno-unknown-warning-option -Wno-missing-field-initializers -Wno-cast-function-type)
+    target_compile_options(${PROJECT_NAME} PRIVATE
+        -Wno-unknown-warning-option -Wno-missing-field-initializers -Wno-cast-function-type)
 endif()
 
 # +-------------------------------------------------------------------------------------------------------+
@@ -95,7 +89,7 @@ endif()
 include("cmake/hide.cmake")
 include("cmake/export.cmake")
 
-#saucer_bindings_hide_symbols(${PROJECT_NAME})
+saucer_bindings_hide_symbols(${PROJECT_NAME})
 saucer_bindings_export(${PROJECT_NAME} "SAUCER_EXPORT")
 
 # +-------------------------------------------------------------------------------------------------------+
@@ -138,10 +132,10 @@ target_sources(${PROJECT_NAME} PRIVATE
 include("cmake/cpm.cmake")
 
 CPMFindPackage(
-  NAME           saucer
-  VERSION        8.0.2
-  GIT_REPOSITORY "https://github.com/saucer/saucer"
-  OPTIONS        "saucer_static ON" "CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON"
+    NAME           saucer
+    VERSION        8.0.2
+    GIT_REPOSITORY "https://github.com/saucer/saucer"
+    OPTIONS        "saucer_static ON" "CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON"
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC saucer::saucer saucer::private)
@@ -151,11 +145,11 @@ target_link_libraries(${PROJECT_NAME} PUBLIC saucer::saucer saucer::private)
 # +-------------------------------------------------------------------------------------------------------+
 
 if (saucer_backend STREQUAL "WebKit")
-  enable_language(OBJCXX)
-  configure_file("src/native.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/native.mm" COPYONLY)
-  target_sources(${PROJECT_NAME} PRIVATE "src/native.mm")
+    enable_language(OBJCXX)
+    configure_file("src/native.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/native.mm" COPYONLY)
+    target_sources(${PROJECT_NAME} PRIVATE "src/native.mm")
 else()
-  target_sources(${PROJECT_NAME} PRIVATE "src/native.cpp")
+    target_sources(${PROJECT_NAME} PRIVATE "src/native.cpp")
 endif()
 
 # +-------------------------------------------------------------------------------------------------------+
@@ -164,14 +158,45 @@ endif()
 
 include("cmake/module.cmake")
 
-if (saucer_desktop)
-  add_subdirectory("modules/desktop")
-endif()
 
-if (saucer_pdf)
-  add_subdirectory("modules/pdf")
-endif()
+message(STATUS "Adding desktop module to main library")
 
-if (saucer_loop)
-  add_subdirectory("modules/loop")
-endif()
+CPMFindPackage(
+    NAME           saucer-desktop
+    VERSION        4.2.0
+    GIT_REPOSITORY "https://github.com/saucer/desktop"
+)
+
+target_sources(${PROJECT_NAME} PRIVATE
+    "modules/desktop/src/desktop.cpp"
+)
+
+target_include_directories(${PROJECT_NAME}
+    PRIVATE "modules/desktop/include/saucer"
+    PUBLIC "modules/desktop/include"
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE saucer::desktop)
+target_compile_definitions(${PROJECT_NAME} PRIVATE SAUCER_DESKTOP_EXPORT)
+
+
+
+message(STATUS "Adding loop module to main library")
+
+CPMFindPackage(
+    NAME           saucer-loop
+    VERSION        2.1.0
+    GIT_REPOSITORY "https://github.com/saucer/loop"
+)
+
+target_sources(${PROJECT_NAME} PRIVATE
+    "modules/loop/src/loop.cpp"
+)
+
+target_include_directories(${PROJECT_NAME}
+    PRIVATE "modules/loop/include/saucer"
+    PUBLIC "modules/loop/include"
+)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE saucer::loop)
+target_compile_definitions(${PROJECT_NAME} PRIVATE SAUCER_LOOP_EXPORT)
