@@ -140,6 +140,22 @@ CPMFindPackage(
 
 target_link_libraries(${PROJECT_NAME} PUBLIC saucer::saucer saucer::private)
 
+CPMFindPackage(
+    NAME           saucer-desktop
+    VERSION        4.2.0
+    GIT_REPOSITORY "https://github.com/saucer/desktop"
+)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC saucer::desktop)
+
+CPMFindPackage(
+    NAME           saucer-loop
+    VERSION        2.1.0
+    GIT_REPOSITORY "https://github.com/saucer/loop"
+)
+
+target_link_libraries(${PROJECT_NAME} PUBLIC saucer::loop)
+
 # +-------------------------------------------------------------------------------------------------------+
 # | Setup Natives                                                                                         |
 # +-------------------------------------------------------------------------------------------------------+
@@ -156,47 +172,16 @@ endif()
 # | Setup Modules                                                                                         |
 # +-------------------------------------------------------------------------------------------------------+
 
-include("cmake/module.cmake")
-
-
-message(STATUS "Adding desktop module to main library")
-
-CPMFindPackage(
-    NAME           saucer-desktop
-    VERSION        4.2.0
-    GIT_REPOSITORY "https://github.com/saucer/desktop"
-)
-
-target_sources(${PROJECT_NAME} PRIVATE
-    "modules/desktop/src/desktop.cpp"
-)
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE "modules/desktop/include/saucer"
     PUBLIC "modules/desktop/include"
-)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE saucer::desktop)
-target_compile_definitions(${PROJECT_NAME} PRIVATE SAUCER_DESKTOP_EXPORT)
-
-
-
-message(STATUS "Adding loop module to main library")
-
-CPMFindPackage(
-    NAME           saucer-loop
-    VERSION        2.1.0
-    GIT_REPOSITORY "https://github.com/saucer/loop"
-)
-
-target_sources(${PROJECT_NAME} PRIVATE
-    "modules/loop/src/loop.cpp"
-)
-
-target_include_directories(${PROJECT_NAME}
     PRIVATE "modules/loop/include/saucer"
     PUBLIC "modules/loop/include"
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE saucer::loop)
-target_compile_definitions(${PROJECT_NAME} PRIVATE SAUCER_LOOP_EXPORT)
+target_sources(${PROJECT_NAME} PRIVATE
+    "modules/desktop/src/desktop.cpp"
+    "modules/loop/src/loop.cpp"
+)
