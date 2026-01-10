@@ -13,6 +13,7 @@ concurrency:
 
 env:
   BUILD_DIR: ./build
+  SOURCES_DIR: ./
 
 name: 🏗️ Build Bindings
 
@@ -23,33 +24,33 @@ jobs:
 
       matrix:
         backend: [WebKit, WebKitGtk, WebView2, Qt]
-        config: [Release]
 
         include:
           - backend: WebView2
             platform: Windows
             os: windows-latest
-            cmake-args: -Dsaucer_msvc_hack=ON -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
+            cmake-args: '-Dsaucer_msvc_hack=ON -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON'
 
           - backend: Qt
             platform: Linux
             os: ubuntu-latest
             container: archlinux:base-devel
-            cmake-args: -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
+            cmake-args: '-Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON'
 
           - backend: WebKitGtk
             platform: Linux
             os: ubuntu-latest
             container: archlinux:base-devel
-            cmake-args: -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
+            cmake-args: '-Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON'
 
           - backend: WebKit
             platform: MacOS
             os: macos-latest
+            cmake-args: '-DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"'
 
     runs-on: ${{ matrix.os }}
     container: ${{ matrix.container }}
-    name: bindings-${{ matrix.backend }}-${{ matrix.config }}
+    name: bindings-${{ matrix.backend }}
 
     steps:
       - name: 📥 Checkout
@@ -68,8 +69,10 @@ jobs:
         with:
           backend: ${{ matrix.backend-override || matrix.backend }}
           platform: ${{ matrix.platform }}
-          build-type: ${{ matrix.config }}
+          build-type: Release
           cmake-args: ${{ matrix.cmake-args }}
+          src-dir: ${{ env.SOURCES_DIR }}
+          build-dir: ${{ env.BUILD_DIR }}
 
       - name: 📦 Upload Artifact
         uses: actions/upload-artifact@v4
