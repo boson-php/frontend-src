@@ -6,3 +6,4 @@ private/version.hpp
 .vs
 .cache
 .vscode
+.idea
