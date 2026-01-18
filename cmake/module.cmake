@@ -6,7 +6,7 @@ function(saucer_bindings_add_module NAME MACRO)
 
     if ("${NAME}" IN_LIST saucer_bindings_inline_modules)
         add_library(${MODULE_NAME} OBJECT)
-        target_sources(${PROJECT_NAME} PRIVATE $<TARGET_OBJECTS:${MODULE_NAME}>)
+        target_link_libraries(${PROJECT_NAME} PUBLIC ${MODULE_NAME})
     else()
         add_library(${MODULE_NAME} MODULE)
     endif()
