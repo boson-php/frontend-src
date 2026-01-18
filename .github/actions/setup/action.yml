@@ -1,0 +1,41 @@
+name: "🛸 Compile Bindings"
+
+inputs:
+  backend:
+    required: true
+    description: The backend to use
+
+  platform:
+    required: true
+    description: The platform which is used to compile
+
+  build-type:
+    required: true
+    description: The CMake build configuration
+
+  saucer-ref:
+    description: Ref of the saucer repo to use for fetching required actions 
+
+  cmake-args:
+    description: Additional Arguments passed to cmake
+
+runs:
+  using: "composite"
+  steps:
+    - name: 📥 Checkout Saucer
+      uses: actions/checkout@v4
+      with:
+        repository: "saucer/saucer"
+        sparse-checkout: ".github"
+        path: "actions"
+        ref: ${{ inputs.saucer-ref || 'master' }}
+
+    - name: 🛸 Setup Bindings
+      uses: ./actions/.github/actions/setup
+      with:
+        backend: ${{ inputs.backend }}
+        platform: ${{ inputs.platform }}
+        build-type: ${{ inputs.build-type }}
+        cmake-args: > 
+          -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
+          ${{ inputs.cmake-args }}

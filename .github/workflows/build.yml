@@ -62,22 +62,13 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v4
 
-      - name: 📥 Checkout Saucer
-        uses: actions/checkout@v4
-        with:
-          repository: "saucer/saucer"
-          sparse-checkout: ".github"
-          path: "actions"
-          ref: ${{ github.event.inputs.ref || 'master' }}
-
-      - name: 🛸 Setup Saucer
-        uses: ./actions/.github/actions/setup
+      - name: 🛸 Setup Bindings
+        uses: .github/actions/setup
         with:
           backend: ${{ matrix.backend-override || matrix.backend }}
           platform: ${{ matrix.platform }}
           build-type: ${{ matrix.config }}
           cmake-args: > 
-            -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON 
             -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="$(pwd)/bin" 
             -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="$(pwd)/bin" 
             ${{ matrix.cmake-args }} 
