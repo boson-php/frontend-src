@@ -1,13 +1,56 @@
 cmake_minimum_required(VERSION 3.21)
-project(saucer-bindings LANGUAGES CXX VERSION 8.0.2)
+project(saucer-bindings LANGUAGES CXX VERSION 8.0.3)
 
 # +-------------------------------------------------------------------------------------------------------+
 # | Library switches                                                                                      |
 # +-------------------------------------------------------------------------------------------------------+
 
-option(saucer_desktop "Enable support for the desktop module" ON)
-option(saucer_pdf     "Enable support for the pdf module"     ON)
-option(saucer_loop    "Enable support for the loop module"    ON)
+option(saucer_bindings_static "Build saucer as a static library" OFF)
+
+# +-------------------------------------------------------------------------------------------------------+
+# | Library options                                                                                       |
+# +-------------------------------------------------------------------------------------------------------+
+
+set(saucer_bindings_modules        "desktop;pdf;loop" CACHE STRING "A list of modules to build")
+set(saucer_bindings_inline_modules ""                 CACHE STRING "A list of modules to inline into the built library")
+
+# +-------------------------------------------------------------------------------------------------------+
+# | Convenience wrapper over `message`                                                                    |
+# +-------------------------------------------------------------------------------------------------------+
+
+function(bindings_message LEVEL MESSAGE)
+  message(${LEVEL} "saucer-bindings: ${MESSAGE}")
+endfunction()
+
+# +-------------------------------------------------------------------------------------------------------+
+# | Ensure valid library options                                                                          |
+# +-------------------------------------------------------------------------------------------------------+
+
+set(saucer_bindings_valid_modules desktop pdf loop)
+
+set_property(CACHE saucer_bindings_modules        PROPERTY STRINGS ${saucer_bindings_valid_modules})
+set_property(CACHE saucer_bindings_inline_modules PROPERTY STRINGS ${saucer_bindings_valid_modules})
+
+foreach (value IN LISTS saucer_bindings_modules)
+  if (value IN_LIST saucer_bindings_valid_modules)
+    continue()
+  endif()
+
+  bindings_message(FATAL_ERROR "Bad module (${value}) expected one or multiple of ${saucer_bindings_valid_modules}")
+endforeach()
+
+foreach (value IN LISTS saucer_bindings_inline_modules)
+  if (value IN_LIST saucer_bindings_valid_modules)
+    continue()
+  endif()
+
+  bindings_message(FATAL_ERROR "Bad inline module (${value}) expected one or multiple of ${saucer_bindings_valid_modules}")
+endforeach()
+
+if (saucer_bindings_static)
+  bindings_message(WARNING "Building saucer as static library...")
+  bindings_message(WARNING "This is not recommended as it can lead to duplicated symbols!")
+endif()
 
 # +-------------------------------------------------------------------------------------------------------+
 # | CMake options                                                                                         |
@@ -82,9 +125,9 @@ include("cmake/cpm.cmake")
 
 CPMFindPackage(
   NAME           saucer
-  VERSION        8.0.2
+  VERSION        8.0.3
   GIT_REPOSITORY "https://github.com/saucer/saucer"
-  OPTIONS        "saucer_static OFF" "CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON"
+  OPTIONS        "saucer_static ${saucer_bindings_static}" "CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON"
 )
 
 target_link_libraries(${PROJECT_NAME} PUBLIC saucer::saucer saucer::private)
@@ -107,14 +150,7 @@ endif()
 
 include("cmake/module.cmake")
 
-if (saucer_desktop)
-  add_subdirectory("modules/desktop")
-endif()
+foreach(module IN LISTS saucer_bindings_modules)
+  add_subdirectory("modules/${module}")
+endforeach()
 
-if (saucer_pdf)
-  add_subdirectory("modules/pdf")
-endif()
-
-if (saucer_loop)
-  add_subdirectory("modules/loop")
-endif()

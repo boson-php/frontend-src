@@ -1,11 +1,27 @@
-function(saucer_bindings_add_module NAME MACRO)
-    message(STATUS "[saucer-bindings] Adding module: ${NAME}")
+cmake_policy(SET CMP0140 NEW)
 
-    saucer_bindings_hide_symbols(${NAME})
-    saucer_bindings_export(${NAME} ${MACRO})
+function(saucer_bindings_add_module NAME MACRO)
+    set(MODULE_NAME  "saucer-bindings-${NAME}")
+    set(MODULE_ALIAS "saucer::bindings::${NAME}")
+
+    if ("${NAME}" IN_LIST saucer_bindings_inline_modules)
+        add_library(${MODULE_NAME} OBJECT)
+        target_sources(${PROJECT_NAME} PRIVATE $<TARGET_OBJECTS:${MODULE_NAME}>)
+    else()
+        add_library(${MODULE_NAME} MODULE)
+        target_link_libraries(${MODULE_NAME} PUBLIC ${PROJECT_NAME})
+    endif()
+
+    add_library(${MODULE_ALIAS} ALIAS ${MODULE_NAME})
+
+    target_compile_features(${MODULE_NAME} PRIVATE cxx_std_23)
+    set_target_properties(${MODULE_NAME} PROPERTIES CXX_STANDARD 23 CXX_EXTENSIONS OFF CXX_STANDARD_REQUIRED ON)
+
+    saucer_bindings_hide_symbols(${MODULE_NAME})
+    saucer_bindings_export(${MODULE_NAME} ${MACRO})
 
     get_target_property(priv_includes saucer::bindings INCLUDE_DIRECTORIES)
+    target_include_directories(${MODULE_NAME} PRIVATE ${priv_includes})
 
-    target_link_libraries(${NAME} PUBLIC saucer::bindings)
-    target_include_directories(${NAME} PRIVATE ${priv_includes})
+    return(PROPAGATE MODULE_NAME)
 endfunction()

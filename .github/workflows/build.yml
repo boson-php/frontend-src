@@ -6,6 +6,10 @@ on:
         type: string
         default: master
         description: The ref of saucer to use
+      cmake:
+        type: string
+        default: -Dsaucer_bindings_static=ON -Dsaucer_bindings_modules="desktop;loop" -Dsaucer_bindings_inline_modules="desktop;loop" 
+        description: Additional CMake Arguments to pass 
 
 name: 🏗️ Build Bindings
 
@@ -15,7 +19,7 @@ jobs:
       fail-fast: false
 
       matrix:
-        backend: [WebKit, WebKitGtk, WebView2, WebView2-Rfl, WebView2-Hack, WebView2-Hack-Rfl, Qt]
+        backend: [WebKit, WebKit-Universal, WebKitGtk, WebView2, WebView2-Hack, Qt]
         config: [Debug, Release, RelWithDebInfo, MinSizeRel]
 
         include:
@@ -29,18 +33,6 @@ jobs:
             platform: Windows
             os: windows-latest
             cmake-args: -Dsaucer_msvc_hack=ON -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
-
-          - backend: WebView2-Rfl
-            backend-override: WebView2
-            platform: Windows
-            os: windows-latest
-            cmake-args: -Dsaucer_serializer=Rflpp
-
-          - backend: WebView2-Hack-Rfl
-            backend-override: WebView2
-            platform: Windows
-            os: windows-latest
-            cmake-args: -Dsaucer_msvc_hack=ON -Dsaucer_serializer=Rflpp
 
           - backend: Qt
             platform: Linux
@@ -58,9 +50,15 @@ jobs:
             platform: MacOS
             os: macos-latest
 
+          - backend: WebKit-Universal
+            backend-override: WebKit
+            platform: MacOS
+            os: macos-latest
+            cmake-args: -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
+
     runs-on: ${{ matrix.os }}
     container: ${{ matrix.container }}
-    name: bindings-${{ matrix.backend }}-${{ matrix.config }}
+    name: ${{ matrix.config}}-${{ matrix.backend }}
 
     steps:
       - name: 📥 Checkout
@@ -80,10 +78,10 @@ jobs:
           backend: ${{ matrix.backend-override || matrix.backend }}
           platform: ${{ matrix.platform }}
           build-type: ${{ matrix.config }}
-          cmake-args: ${{ matrix.cmake-args }}
+          cmake-args: -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=saucer-bin -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=saucer-bin ${{ matrix.cmake-args }} ${{ github.event.inputs.cmake }}
 
       - name: 📦 Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: Binding (${{ matrix.backend }}-${{ matrix.config }})
-          path: build
+          name: "${{ matrix.config }}: ${{ matrix.backend }}"
+          path: build/saucer-bin
