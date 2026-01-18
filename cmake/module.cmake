@@ -12,6 +12,7 @@ function(saucer_bindings_add_module NAME MACRO)
     endif()
 
     add_library(${MODULE_ALIAS} ALIAS ${MODULE_NAME})
+    target_link_libraries(${MODULE_NAME} PRIVATE saucer::private)
 
     target_compile_features(${MODULE_NAME} PRIVATE cxx_std_23)
     set_target_properties(${MODULE_NAME} PROPERTIES CXX_STANDARD 23 CXX_EXTENSIONS OFF CXX_STANDARD_REQUIRED ON)

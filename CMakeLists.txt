@@ -130,7 +130,7 @@ CPMFindPackage(
   OPTIONS        "saucer_static ${saucer_bindings_static}" "CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON"
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC saucer::saucer saucer::private)
+target_link_libraries(${PROJECT_NAME} PRIVATE saucer::saucer saucer::private)
 
 # +-------------------------------------------------------------------------------------------------------+
 # | Setup Natives                                                                                         |
