@@ -9,7 +9,6 @@ function(saucer_bindings_add_module NAME MACRO)
         target_sources(${PROJECT_NAME} PRIVATE $<TARGET_OBJECTS:${MODULE_NAME}>)
     else()
         add_library(${MODULE_NAME} MODULE)
-        target_link_libraries(${MODULE_NAME} PUBLIC ${PROJECT_NAME})
     endif()
 
     add_library(${MODULE_ALIAS} ALIAS ${MODULE_NAME})

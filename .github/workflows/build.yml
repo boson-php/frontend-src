@@ -78,10 +78,10 @@ jobs:
           backend: ${{ matrix.backend-override || matrix.backend }}
           platform: ${{ matrix.platform }}
           build-type: ${{ matrix.config }}
-          cmake-args: -DCMAKE_RUNTIME_OUTPUT_DIRECTORY=saucer-bin -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=saucer-bin ${{ matrix.cmake-args }} ${{ github.event.inputs.cmake }}
+          cmake-args: -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="$(pwd)/bin" -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="$(pwd)/bin" ${{ matrix.cmake-args }} ${{ github.event.inputs.cmake }}
 
       - name: 📦 Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: "${{ matrix.config }}-${{ matrix.backend }}"
-          path: build/saucer-bin
+          path: bin 
