@@ -8,6 +8,7 @@ on:
         description: The ref of saucer to use
       cmake:
         type: string
+        # This default value shows off how to inline the desktop and loop module to produce a single shared library that contains all commonly required functionality
         default: -Dsaucer_bindings_static=ON -Dsaucer_bindings_modules="desktop;loop" -Dsaucer_bindings_inline_modules="desktop;loop" 
         description: Additional CMake Arguments to pass 
 
@@ -26,25 +27,22 @@ jobs:
           - backend: WebView2
             platform: Windows
             os: windows-latest
-            cmake-args: -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
 
           - backend: WebView2-Hack
             backend-override: WebView2
             platform: Windows
             os: windows-latest
-            cmake-args: -Dsaucer_msvc_hack=ON -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
+            cmake-args: -Dsaucer_msvc_hack=ON
 
           - backend: Qt
             platform: Linux
             os: ubuntu-latest
             container: archlinux:base-devel
-            cmake-args: -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
 
           - backend: WebKitGtk
             platform: Linux
             os: ubuntu-latest
             container: archlinux:base-devel
-            cmake-args: -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON
 
           - backend: WebKit
             platform: MacOS
@@ -78,7 +76,12 @@ jobs:
           backend: ${{ matrix.backend-override || matrix.backend }}
           platform: ${{ matrix.platform }}
           build-type: ${{ matrix.config }}
-          cmake-args: -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="$(pwd)/bin" -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="$(pwd)/bin" ${{ matrix.cmake-args }} ${{ github.event.inputs.cmake }}
+          cmake-args: > 
+            -Dglaze_DISABLE_SIMD_WHEN_SUPPORTED=ON 
+            -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="$(pwd)/bin" 
+            -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="$(pwd)/bin" 
+            ${{ matrix.cmake-args }} 
+            ${{ github.event.inputs.cmake }}
 
       - name: 📦 Upload Artifact
         uses: actions/upload-artifact@v4

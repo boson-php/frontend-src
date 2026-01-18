@@ -26,11 +26,10 @@ The workflows build in all configurations (Debug, MinSizeRel, RelWithDebInfo, Re
   - WebKitGtk
 - MacOS
   - WebKit
+  - WebKit-Universal
 - Windows
   - WebView2
   - WebView2-Hack[^2]
-  - WebView2-Rfl[^3]
-  - WebView2-Hack-Rfl
 
 ## Building
 
@@ -86,5 +85,3 @@ Also, beware that all bindings are community maintained and their conformance ma
 [^1]: For more information, checkout the official repository to see how the smartview is actually implemented under the hood.
 
 [^2]: See the documentation: https://saucer.app/getting-started/cmake/#msvc-mutex
-
-[^3]: Uses the reflect-cpp serializer instead of Glaze
