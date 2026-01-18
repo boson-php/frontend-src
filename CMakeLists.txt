@@ -49,7 +49,7 @@ endforeach()
 
 if (saucer_bindings_static)
   bindings_message(WARNING "Building saucer as static library...")
-  bindings_message(WARNING "This is not recommended as it can lead to duplicated symbols!")
+  bindings_message(WARNING "This is not recommended unless you absolutely know what you are doing!")
 endif()
 
 # +-------------------------------------------------------------------------------------------------------+
