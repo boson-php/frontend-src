@@ -58,7 +58,7 @@ jobs:
 
     runs-on: ${{ matrix.os }}
     container: ${{ matrix.container }}
-    name: ${{ matrix.config}}-${{ matrix.backend }}
+    name: "${{ matrix.config}}: ${{ matrix.backend }}"
 
     steps:
       - name: 📥 Checkout
@@ -83,5 +83,5 @@ jobs:
       - name: 📦 Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: "${{ matrix.config }}: ${{ matrix.backend }}"
+          name: "${{ matrix.config }}-${{ matrix.backend }}"
           path: build/saucer-bin
