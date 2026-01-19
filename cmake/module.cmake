@@ -8,7 +8,7 @@ function(saucer_bindings_add_module NAME MACRO)
         add_library(${MODULE_NAME} OBJECT)
         target_link_libraries(${PROJECT_NAME} PUBLIC ${MODULE_NAME})
     else()
-        add_library(${MODULE_NAME} MODULE)
+        add_library(${MODULE_NAME} SHARED)
     endif()
 
     add_library(${MODULE_ALIAS} ALIAS ${MODULE_NAME})
