@@ -102,10 +102,7 @@ extern "C"
      */
     SAUCER_EXPORT saucer_webview *saucer_webview_new(saucer_webview_options *, int *error);
 
-    /**
-     * @note The pointer passed to \param{error} can be null
-     */
-    SAUCER_EXPORT saucer_url *saucer_webview_url(saucer_webview *, int *error);
+    SAUCER_EXPORT saucer_url *saucer_webview_url(saucer_webview *);
 
     SAUCER_EXPORT saucer_icon *saucer_webview_favicon(saucer_webview *);
     SAUCER_EXPORT void saucer_webview_page_title(saucer_webview *, char *, size_t *);

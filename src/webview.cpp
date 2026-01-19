@@ -142,21 +142,9 @@ extern "C"
         return saucer_webview::from(std::move(*rtn));
     }
 
-    saucer_url *saucer_webview_url(saucer_webview *webview, int *error)
+    saucer_url *saucer_webview_url(saucer_webview *webview)
     {
-        auto rtn = (*webview)->url();
-
-        if (!rtn.has_value() && error)
-        {
-            *error = rtn.error().code();
-        }
-
-        if (!rtn.has_value())
-        {
-            return nullptr;
-        }
-
-        return saucer_url::from(std::move(*rtn));
+        return saucer_url::from((*webview)->url());
     }
 
     saucer_icon *saucer_webview_favicon(saucer_webview *webview)
