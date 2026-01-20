@@ -148,7 +148,8 @@ extern "C"
     SAUCER_EXPORT void saucer_webview_uninject_all(saucer_webview *);
     SAUCER_EXPORT void saucer_webview_uninject(saucer_webview *, size_t);
 
-    SAUCER_EXPORT void saucer_webview_handle_scheme(saucer_webview *, const char *, saucer_scheme_handler);
+    SAUCER_EXPORT void saucer_webview_handle_scheme(saucer_webview *, const char *, saucer_scheme_handler,
+                                                    void *userdata);
     SAUCER_EXPORT void saucer_webview_remove_scheme(saucer_webview *, const char *);
 
     SAUCER_EXPORT size_t saucer_webview_on(saucer_webview *, saucer_webview_event, void *callback, bool clearable,

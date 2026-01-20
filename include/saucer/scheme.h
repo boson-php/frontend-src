@@ -49,7 +49,7 @@ extern "C"
     SAUCER_EXPORT void saucer_scheme_executor_reject(saucer_scheme_executor *, saucer_scheme_error);
     SAUCER_EXPORT void saucer_scheme_executor_accept(saucer_scheme_executor *, saucer_scheme_response *);
 
-    typedef void (*saucer_scheme_handler)(saucer_scheme_request *, saucer_scheme_executor *);
+    typedef void (*saucer_scheme_handler)(saucer_scheme_request *, saucer_scheme_executor *, void *);
 
 #ifdef __cplusplus
 }
