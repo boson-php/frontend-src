@@ -26,7 +26,7 @@ endfunction()
 # | Ensure valid library options                                                                          |
 # +-------------------------------------------------------------------------------------------------------+
 
-set(saucer_bindings_valid_modules desktop pdf loop)
+set(saucer_bindings_valid_modules desktop pdf loop boson)
 
 set_property(CACHE saucer_bindings_modules        PROPERTY STRINGS ${saucer_bindings_valid_modules})
 set_property(CACHE saucer_bindings_inline_modules PROPERTY STRINGS ${saucer_bindings_valid_modules})
