@@ -3,6 +3,7 @@ build
 src/native.mm
 private/version.hpp
 
+.idea
 .vs
 .cache
 .vscode

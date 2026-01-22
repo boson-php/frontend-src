@@ -1,3 +1,5 @@
+name: 🏗️ Build Bindings
+
 on:
   push:
   workflow_dispatch:
@@ -9,10 +11,12 @@ on:
       cmake:
         type: string
         # This default value shows off how to inline the desktop and loop module to produce a single shared library that contains all commonly required functionality
-        default: -Dsaucer_bindings_static=ON -Dsaucer_bindings_modules="desktop;loop" -Dsaucer_bindings_inline_modules="desktop;loop" 
-        description: Additional CMake Arguments to pass 
+        default: -Dsaucer_bindings_static=ON -Dsaucer_bindings_modules="desktop;loop" -Dsaucer_bindings_inline_modules="desktop;loop"
+        description: Additional CMake Arguments to pass
 
-name: 🏗️ Build Bindings
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -20,8 +24,18 @@ jobs:
       fail-fast: false
 
       matrix:
-        backend: [WebKit, WebKit-Universal, WebKitGtk, WebView2, WebView2-Hack, Qt]
-        config: [Debug, Release, RelWithDebInfo, MinSizeRel]
+        backend:
+          #- WebKit
+          - WebKit-Universal
+          - WebKitGtk
+          #- WebView2
+          - WebView2-Hack
+          - Qt
+        config:
+          # - Debug
+          # - Release
+          # - RelWithDebInfo
+          - MinSizeRel
 
         include:
           - backend: WebView2
