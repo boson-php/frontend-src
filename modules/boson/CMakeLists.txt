@@ -2,7 +2,7 @@
 # Setup library
 # --------------------------------------------------------------------------------------------------------
 
-saucer_bindings_add_module(desktop "BOSON_EXPORT")
+saucer_bindings_add_module(boson "BOSON_EXPORT")
 
 # --------------------------------------------------------------------------------------------------------
 # Include directories
