@@ -11,8 +11,8 @@ option(saucer_bindings_static "Build saucer as a static library" OFF)
 # | Library options                                                                                       |
 # +-------------------------------------------------------------------------------------------------------+
 
-set(saucer_bindings_modules        "desktop;pdf;loop" CACHE STRING "A list of modules to build")
-set(saucer_bindings_inline_modules "loop"             CACHE STRING "A list of modules to inline into the built library")
+set(saucer_bindings_modules        "desktop;pdf;loop;boson" CACHE STRING "A list of modules to build")
+set(saucer_bindings_inline_modules "loop"                   CACHE STRING "A list of modules to inline into the built library")
 
 # +-------------------------------------------------------------------------------------------------------+
 # | Convenience wrapper over `message`                                                                    |

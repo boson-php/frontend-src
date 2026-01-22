@@ -11,7 +11,7 @@ on:
       cmake:
         type: string
         # This default value shows off how to inline the desktop and loop module to produce a single shared library that contains all commonly required functionality
-        default: -Dsaucer_bindings_static=ON -Dsaucer_bindings_modules="desktop;loop" -Dsaucer_bindings_inline_modules="desktop;loop"
+        default: -Dsaucer_bindings_static=ON -Dsaucer_bindings_modules="desktop;loop;boson" -Dsaucer_bindings_inline_modules="desktop;loop;boson"
         description: Additional CMake Arguments to pass
 
 concurrency:
