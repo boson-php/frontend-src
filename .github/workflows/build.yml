@@ -2,17 +2,7 @@ name: 🏗️ Build Bindings
 
 on:
   push:
-  workflow_dispatch:
-    inputs:
-      ref:
-        type: string
-        default: master
-        description: The ref of saucer to use
-      cmake:
-        type: string
-        # This default value shows off how to inline the desktop and loop module to produce a single shared library that contains all commonly required functionality
-        default: -Dsaucer_bindings_static=ON -Dsaucer_bindings_modules="desktop;loop;boson" -Dsaucer_bindings_inline_modules="desktop;loop;boson"
-        description: Additional CMake Arguments to pass
+  pull_request:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -69,7 +59,9 @@ jobs:
             -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="$(pwd)/bin" 
             -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="$(pwd)/bin" 
             ${{ matrix.cmake-args }} 
-            ${{ github.event.inputs.cmake }}
+            -Dsaucer_bindings_static=ON 
+            -Dsaucer_bindings_modules="desktop;loop;boson" 
+            -Dsaucer_bindings_inline_modules="desktop;loop;boson"
 
       - name: 📦 Upload Artifact
         uses: actions/upload-artifact@v4
